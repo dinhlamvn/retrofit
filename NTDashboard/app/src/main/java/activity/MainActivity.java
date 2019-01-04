@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements IUpdateDataCallba
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         btnUpdate = findViewById(R.id.button_update);
         btnUpdate.setTag("ButtonUpdate");
+        btnUpdate.setOnClickListener(this);
 
         requestAPI = new RequestAPI();
     }
