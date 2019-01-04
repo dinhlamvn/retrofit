@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">NT Dashboard</string>
+
+    <string name="base_url">http://www.dongabank.com.vn/</string>
+
+    <string name="button_update">CẬP NHẬT</string>
+
+    <string name="buy_1_text">Mua tiền mặt: xxx VND \nBán tiền mặt: yyy VND</string>
+
+    <string name="buy_2_text">Mua chuyển khoản: xxx VND \nBán chuyển khoản: yyy VND</string>
+</resources>
