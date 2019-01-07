@@ -2,6 +2,7 @@ package activity;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,23 +16,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.DrawableImageViewTarget;
 import com.example.pc6.ntdashboard.R;
 import com.google.gson.Gson;
 
+import controller.APIClient;
 import controller.IUpdateDataCallback;
-import controller.RequestAPI;
+import controller.NgoaiTeAPI;
 import model.NgoaiTe;
-import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity implements IUpdateDataCallback, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "MainActivityLog";
 
     private RecyclerView recyclerView;
     private DashboardAdapter adapter;
     private Button btnUpdate;
-    RequestAPI requestAPI;
     private NgoaiTe ngoaiTe;
     private boolean isAutoUpdate = true;
 
@@ -46,13 +49,50 @@ public class MainActivity extends AppCompatActivity implements IUpdateDataCallba
         btnUpdate.setTag("ButtonUpdate");
         btnUpdate.setOnClickListener(this);
 
-        requestAPI = new RequestAPI();
+        call();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        requestAPI.start(getResources().getString(R.string.base_url), this);
+    }
+
+    private void call() {
+        Retrofit callApi = APIClient.create(getResources().getString(R.string.base_url));
+        NgoaiTeAPI ngoaiTeAPI = callApi.create(NgoaiTeAPI.class);
+
+        Call<String> call = ngoaiTeAPI.getGiaNgoaiTe();
+
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+
+                String res = response.body();
+
+                res = res.replace("(", "");
+                res = res.replace(")", "");
+
+                Gson gson = new Gson();
+                ngoaiTe = gson.fromJson(res, NgoaiTe.class);
+
+                if (isAutoUpdate) {
+                    adapter = new DashboardAdapter(getBaseContext(), ngoaiTe);
+                    recyclerView.setAdapter(adapter);
+                    isAutoUpdate = false;
+                } else {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                new AlertDialog.Builder(getBaseContext())
+                        .setTitle("Thông báo")
+                        .setMessage("Cập nhật dữ liệu thất bại")
+                        .setCancelable(true)
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -60,32 +100,8 @@ public class MainActivity extends AppCompatActivity implements IUpdateDataCallba
         String t = v.getTag().toString();
 
         if (t != null && t.equals("ButtonUpdate")) {
-            requestAPI.start(getResources().getString(R.string.base_url), this);
+            call();
         }
-    }
-
-    @Override
-    public void updateOnSucceed(String response) {
-        // Xóa bỏ ký tự ( và ) ở dữ liệu trả về
-        response = response.replace("(", "");
-        response = response.replace(")", "");
-
-        // Chuyển đổi dữ liệu nhận được qua đối tượng json
-        Gson gson = new Gson();
-        ngoaiTe = gson.fromJson(response, NgoaiTe.class);
-
-        if (isAutoUpdate) {
-            adapter = new DashboardAdapter(this, ngoaiTe);
-            recyclerView.setAdapter(adapter);
-            isAutoUpdate = false;
-        } else {
-            adapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public void updateOnFailed(String message) {
-        Log.d(TAG, "updateOnFailed: " + message);
     }
 
     public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.ViewHolder> {
