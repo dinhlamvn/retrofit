@@ -4,30 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activities.MainActivity"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edit_name"
+    <Button
+        android:id="@+id/button_sign_up"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter your name"/>
-
-    <EditText
-        android:id="@+id/edit_age"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your age"/>
+        android:textColor="#000"
+        android:background="@android:drawable/btn_default"
+        android:textSize="14sp"
+        android:text="Sign Up" />
 
     <Button
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Sign Up"/>
-
-    <TextView
-        android:id="@+id/text_info"
+        android:id="@+id/button_sign_in"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:background="@android:drawable/btn_default"
+        android:textSize="14sp"
+        android:text="Sign In"/>
 
 </LinearLayout>

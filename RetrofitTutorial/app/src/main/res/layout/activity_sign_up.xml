@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your name"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edit_bdate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your birthday"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="date"/>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/radio_male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Male"
+            android:textSize="16sp"
+            android:textColor="#000"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/radio_female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Female"
+            android:textSize="16sp"
+            android:textColor="#000"/>
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/edit_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your email"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="textEmailAddress"/>
+
+    <EditText
+        android:id="@+id/edit_pws"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your password"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="numberPassword"/>
+
+    <EditText
+        android:id="@+id/edit_addr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your address"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/edit_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:hint="Enter your phone number"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:inputType="phone"/>
+
+    <Button
+        android:id="@+id/button_sign_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="16sp"
+        android:textColor="#000"
+        android:textStyle="bold"
+        android:background="@android:drawable/btn_default_small"
+        android:padding="5dp"/>
+
+    <TextView
+        android:id="@+id/text_sign_up_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="normal|italic"
+        android:textSize="14sp"
+        android:textColor="#f00"
+        android:visibility="invisible"/>
+
+</LinearLayout>
