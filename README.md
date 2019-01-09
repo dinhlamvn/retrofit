@@ -21,49 +21,88 @@
 -	Thêm quyền truy cập Internet dành cho ứng dụng: </br>
     `uses-permission android:name="android.permission.INTERNET"`
 ## Ví dụ demo
-# GET
-- Link api: http://www.dongabank.com.vn/exchange/export
-
+- API do mình tự xây dựng, sử dụng nodejs, link: https://github.com/dinhlamvn/retrofit/tree/master/MyServer . Các bạn có thể tải về và chạy server trên máy của mình bằng cách vào thư mục MyServer, mở cmd và gõ:
+`npm install` </br>
+`node server.js` 
 - Xây dựng model: (Để tiện các bạn có thể vào trang http://www.jsonschema2pojo.org/ để tạo ra model tự động từ dữ liệu nhận được) 
 
-- Xây dựng interface để giao tiếp với api: </br>
+- Xây dựng interface để giao tiếp với api: Ở đây mình sử dụng 2 phương thức chính là GET và POST </br>
 ```java
-public interface NgoaiTeAPI { 
-    @GET("exchange/export") 
-    @Headers({"Content-Type: Application/Json;charset=UTF-8","Accept: Application/Json",})
-    Call<String> getGiaNgoaiTe();
+public interface RequestApi {
+
+    @GET("user/")
+    Call<User> getInfoUser(@Query("user_id") String userId);
+
+    @POST("signup/")
+    Call<Result> signUp(@Body User.UserData user);
+
+    @FormUrlEncoded
+    @POST("signin/")
+    Call<Result> signIn(@Field("email") String email, @Field("pws") String pws);
 }
 ```
 - Tạo client api:
 ```java
 public class APIClient {
 
-    public static Retrofit create(final String baseUrl) {
-        return new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addConverterFactory(ScalarsConverterFactory.create())
+    private static final String BASE_URL = "http://10.1.10.198:8800/";
+
+    private static Retrofit retrofit = null;
+    
+    public static Retrofit getClient() {
+        OkHttpClient httpClient = new OkHttpClient.Builder().build();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(httpClient)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
+        return retrofit;
     }
 }
 ```
-Ở đây mình dùng Scalar mà không dùng chuyển trực tiếp sang json là vì dữ liệu của api có chứa 2 dấu '(' và ')' ở đầu và cuối nên không thể tự động chuyển từ json sang model được
+Ở đây, BASE_URL là http://10.1.10.198:8800/ chính là server nodejs đang chạy trên máy mình, máy của các bạn địa chỉ như nào thì chỉ cần sửa chỗ này là được
 
 - Tiến hành gọi api:
+1. API Sign Up (POST)
 ```java
-        Retrofit callApi = APIClient.create(getResources().getString(R.string.base_url));
-        NgoaiTeAPI ngoaiTeAPI = callApi.create(NgoaiTeAPI.class);
+        Retrofit retrofit = APIClient.getClient();
 
-        Call<String> call = ngoaiTeAPI.getGiaNgoaiTe();
+        RequestApi callApi = retrofit.create(RequestApi.class);
 
-        call.enqueue(new Callback<String>() {
+        Call<Result> call = callApi.signUp(userData);
+
+        call.enqueue(this);
+        
+    @Override
+    public void onResponse(Call<Result> call, Response<Result> response) {
+        // Xử lý response server trả về khi sign up ở đây
+    }
+
+    @Override
+    public void onFailure(Call<Result> call, Throwable t) {
+        // Xử lý khi gọi api bị lỗi
+    }
+```
+2. API Get info (GET)
+```java
+        Retrofit retrofit = APIClient.getClient();
+
+        RequestApi requestApi = retrofit.create(RequestApi.class);
+
+        Call<User> call = requestApi.getInfoUser(userId);
+
+        call.enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                // Xử lý dữ liệu ở đây
+            public void onResponse(Call<User> call, Response<User> response) {
+                // Xử lý response server trả về, cụ thể là thông tin user
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                // Xử lý khi gọi thất bại
+            public void onFailure(Call<User> call, Throwable t) {
+                // Xử lý khi gặp lỗi call api
             }
         });
 ```
+
+Trên đây, mình đã giới thiệu cũng như hướng dẫn các bạn sử dụng Retrofit để gọi api trong Android. Nếu có vấn đề gì chưa rõ, các bạn có thể nhắn mình qua mail dinhlamvn353@gmail.com
