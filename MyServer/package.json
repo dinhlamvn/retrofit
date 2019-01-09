@@ -1,0 +1,21 @@
+{
+  "name": "myserver",
+  "version": "1.0.0",
+  "description": "this is test server",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "mysql2": "^1.6.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [
+    "myserver"
+  ],
+  "author": "dinhlamvn",
+  "license": "ISC"
+}
