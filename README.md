@@ -24,6 +24,7 @@
 - API do mình tự xây dựng, sử dụng nodejs, link: https://github.com/dinhlamvn/retrofit/tree/master/MyServer . Các bạn có thể tải về và chạy server trên máy của mình bằng cách vào thư mục MyServer, mở cmd và gõ:
 `npm install` </br>
 `node server.js` 
+- File cơ sở dữ liệu cũng có trong link này https://github.com/dinhlamvn/retrofit/blob/master/blogs.sql, các bạn có thể tải về và import vào mysql
 - Xây dựng model: (Để tiện các bạn có thể vào trang http://www.jsonschema2pojo.org/ để tạo ra model tự động từ dữ liệu nhận được) 
 
 - Xây dựng interface để giao tiếp với api: Ở đây mình sử dụng 2 phương thức chính là GET và POST </br>
@@ -66,13 +67,13 @@ public class APIClient {
 - Tiến hành gọi api:
 1. API Sign Up (POST)
 ```java
-        Retrofit retrofit = APIClient.getClient();
+    Retrofit retrofit = APIClient.getClient();
 
-        RequestApi callApi = retrofit.create(RequestApi.class);
+    RequestApi callApi = retrofit.create(RequestApi.class);
 
-        Call<Result> call = callApi.signUp(userData);
+    Call<Result> call = callApi.signUp(userData);
 
-        call.enqueue(this);
+    call.enqueue(this);
         
     @Override
     public void onResponse(Call<Result> call, Response<Result> response) {
@@ -105,4 +106,4 @@ public class APIClient {
         });
 ```
 
-Trên đây, mình đã giới thiệu cũng như hướng dẫn các bạn sử dụng Retrofit để gọi api trong Android. Nếu có vấn đề gì chưa rõ, các bạn có thể nhắn mình qua mail dinhlamvn353@gmail.com
+Trên đây, mình đã giới thiệu cũng như hướng dẫn các bạn sử dụng Retrofit để gọi api trong Android. Nếu có vấn đề gì chưa rõ, các bạn có thể liên hệ với mình để chúng ta cùng nhau làm rõ hơn.
