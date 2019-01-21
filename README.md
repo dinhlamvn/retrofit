@@ -46,7 +46,7 @@ public interface RequestApi {
 ```java
 public class APIClient {
 
-    private static final String BASE_URL = "http://10.1.10.198:8800/";
+    private static final String BASE_URL = "http://localhost:8800/";
 
     private static Retrofit retrofit = null;
     
@@ -62,7 +62,7 @@ public class APIClient {
     }
 }
 ```
-Ở đây, BASE_URL là http://10.1.10.198:8800/ chính là server nodejs đang chạy trên máy mình, máy của các bạn địa chỉ như nào thì chỉ cần sửa chỗ này là được
+Ở đây, BASE_URL là http://localhost:8800/ chính là server nodejs đang chạy trên máy mình, máy của các bạn địa chỉ như nào thì chỉ cần sửa chỗ này là được
 
 - Tiến hành gọi api:
 1. API Sign Up (POST)
